@@ -47,3 +47,11 @@
     
 </form>
 </div>
+<!-- sets the different query parameters using submitted input for hubdb query -->
+{% set queryparam = "" %}
+{% if request.query_dict.type in ["1", "2", "3", "4"] %}
+    {% set queryparam = queryparam ~ "&type="~request.query_dict.type|urlencode %}
+{% endif %}
+{% if request.query_dict.type == "show-all" %}
+    {% set queryparam = queryparam %}
+{% endif %}
