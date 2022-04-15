@@ -25,8 +25,10 @@
 </div>
   {% endfor %}
   {% endif %}
-  
-  <div>
+
+<!-- set the filter by drop down, search bar, and submit button -->
+
+<div>
 <form id="form_id" method="get">
    
     <div>
@@ -47,14 +49,6 @@
     
 </form>
 </div>
-<!-- sets the different query parameters using submitted input for hubdb query -->
-{% set queryparam = "" %}
-{% if request.query_dict.type in ["1", "2", "3", "4"] %}
-    {% set queryparam = queryparam ~ "&type="~request.query_dict.type|urlencode %}
-{% endif %}
-{% if request.query_dict.type == "show-all" %}
-    {% set queryparam = queryparam %}
-{% endif %}
 
 
 <!-- sets the different query parameters using submitted input for hubdb query -->
@@ -65,6 +59,14 @@
 {% if request.query_dict.type == "show-all" %}
     {% set queryparam = queryparam %}
 {% endif %}
+
+
+...
+    <div>
+        <input name="listing_address" type="text" id="search-by" class="autocomplete" placeholder="Search by City or Zip Code...">
+    </div>
+        <input id="submit-button" type="submit" value="search">
+...
 
 ...
 {% set queryparam = "" %}
@@ -78,6 +80,3 @@
     {% set queryparam = queryparam~"&listing_address__icontains="~request.query_dict.listing_address|urlencode %}
 {% endif %}
 ...
-
-
-
