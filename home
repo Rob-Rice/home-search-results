@@ -55,3 +55,26 @@
 {% if request.query_dict.type == "show-all" %}
     {% set queryparam = queryparam %}
 {% endif %}
+
+
+<!-- sets the different query parameters using submitted input for hubdb query -->
+{% set queryparam = "" %}
+{% if request.query_dict.type in ["1", "2", "3", "4"] %}
+    {% set queryparam = queryparam ~ "&type="~request.query_dict.type|urlencode %}
+{% endif %}
+{% if request.query_dict.type == "show-all" %}
+    {% set queryparam = queryparam %}
+{% endif %}
+
+...
+{% set queryparam = "" %}
+{% if request.query_dict.type in ["1", "2", "3", "4"] and request.query_dict.listing_address == "" %}
+    {% set queryparam = queryparam ~ "&type="~request.query_dict.type|urlencode %}
+{% endif %}
+{% if request.query_dict.type in ["1", "2", "3", "4"] and request.query_dict.listing_address != "" %}
+    {% set queryparam = queryparam~"&type="~request.query_dict.type|urlencode~"&listing_address__icontains="~request.query_dict.listing_address|urlencode %}
+{% endif %}
+{% if request.query_dict.type == "show-all" and request.query_dict.listing_address != "" %}
+    {% set queryparam = queryparam~"&listing_address__icontains="~request.query_dict.listing_address|urlencode %}
+{% endif %}
+...
