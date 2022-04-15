@@ -1,0 +1,49 @@
+{% set table = hubdb_table_rows({Insert YOUR Table ID}, queryparam) %}
+
+{% if table == [] %}
+    <p class='align-center'>Sorry, no listings found for that Search. Try changing your filter and search again.</p>
+{% else %}
+  {% for row in table %}
+<div>
+    <div class="{{ row["type"].name }}">
+        <div><img src="{{ row["listing_image"].url}}"></div>
+            <div>
+              <h2>{{ row["listing_price"] }}</h2>
+              <h3>{{ row["listing_address"] }}</h3>
+              <h4>{{ row["type"].name }}</h4>
+              <div>
+                  <ul>
+                      <li><span>{{ row["listing_bedrooms"] }}</span><br>bd</li>
+                      <li><span>{{ row["listing_baths"] }}</span><br>ba</li>
+                      <li><span>{{ row["listing_sq_ft"] }}</span><br>sq ft</li>
+                      <li><span>{{ row["listing_acres"] }}</span><br>acres</li>
+                  </ul>
+              </div>
+              <div class="button"><a href="{{ row["listing_url"] }}">Details</a></div>
+            </div>
+    </div>            
+</div>
+  {% endfor %}
+  {% endif %}
+  
+  <div>
+<form id="form_id" method="get">
+   
+    <div>
+        <h4>FILTER BY LISTING TYPE: </h4>
+        <select name="type" form="form_id" onChange="this.form.submit()">
+            <option value="show-all">Show All</option>
+            {% set types = hubdb_table_column({Insert YOUR Table ID}, "type").options %}
+            {% for choice in types %}
+                {% set type_list = type_list~choice.id|list%}
+                {% if choice.id == request.query_dict.type%}
+                    <option selected="selected" value="{{ choice.id }}">{{ choice.name }}</option>
+                {% else %}
+                    <option value="{{ choice.id }}">{{ choice.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    
+</form>
+</div>
